@@ -4,6 +4,7 @@
   "description": "Model-agnostic workflow orchestration engine for multi-step AI development tasks with local RAG and validation hooks",
   "author": "@makroumi",
   "license": "MIT",
+  "contextFileName": "GEMINI.md",
   "engines": {
     "gemini-cli": ">=1.0.0"
   },
