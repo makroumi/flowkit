@@ -1,0 +1,70 @@
+{
+  "name": "FlowKit",
+  "version": "1.0.0",
+  "description": "Model-agnostic workflow orchestration engine for multi-step AI development tasks with local RAG and validation hooks",
+  "author": "@makroumi",
+  "license": "MIT",
+  "engines": {
+    "gemini-cli": ">=1.0.0"
+  },
+  "mcpServers": {
+    "flow-orchestrator": {
+      "command": "node",
+      "args": [
+        "${extensionPath}/dist/server.js"
+      ],
+      "cwd": "${workspacePath}",
+      "env": {
+        "NODE_ENV": "production",
+        "WORKSPACE_ROOT": "${workspacePath}",
+        "EXTENSION_PATH": "${extensionPath}"
+      }
+    }
+  },
+  "activationEvents": [
+    "onCommand:flowkit",
+    "onFileExists:flow.yaml"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "flowkit",
+        "title": "FlowKit",
+        "description": "Execute a multi-step workflow from flow.yaml"
+      }
+    ],
+    "configuration": {
+      "title": "FlowKit",
+      "properties": {
+        "flowkit.defaultModel": {
+          "type": "string",
+          "default": "gemini-2.5-pro",
+          "description": "Default LLM model for workflow execution"
+        },
+        "FlowKit.flowFilePath": {
+          "type": "string",
+          "default": "./flow.yaml",
+          "description": "Path to the workflow definition file"
+        },
+        "FlowKit.enableValidation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable validation hooks between workflow steps"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4"
+  },
+  "keywords": [
+    "mcp",
+    "workflow",
+    "automation",
+    "orchestration",
+    "model-agnostic",
+    "rag"
+  ]
+}

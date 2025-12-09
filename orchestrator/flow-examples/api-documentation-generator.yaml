@@ -1,0 +1,16 @@
+flows:
+  - name: "api-documentation-generator"
+    description: "Generates OpenAPI specs from code"
+    steps:
+      - id: "extract"
+        name: "Extract API Endpoints"
+        prompt: "Analyze the code and list all HTTP endpoints with methods and parameters."
+        use_previous_output: false
+        
+      - id: "generate"
+        name: "Create OpenAPI Spec"
+        prompt: "Convert the endpoint list above into a valid OpenAPI 3.0 specification in YAML format."
+        use_previous_output: true
+        validation:
+          type: "external_command"
+          rule: "npx @apidevtools/swagger-cli validate /dev/stdin"

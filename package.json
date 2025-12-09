@@ -1,0 +1,46 @@
+{
+  "name": "flowkit",
+  "version": "1.0.0",
+  "description": "FlowKit — The #1 model-agnostic AI CLI extension. Enterprise-grade workflow orchestrator for Gemini, Claude, and OpenAI CLIs with step chaining, validation, and RAG integration.",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "build:flows": "node scripts/merge-flow-examples.js",
+    "prebuild": "npm run build:flows",
+    "build": "npm run build:flows && tsc -p tsconfig.json",
+    "dev": "ts-node src/server/mcpServer.ts",
+    "start": "node dist/server.js",
+    "lint": "eslint . --ext .ts",
+    "test": "jest"
+  },
+  "keywords": [
+    "flowkit",
+    "orchestrator",
+    "mcp",
+    "gemini",
+    "claude",
+    "openai",
+    "ai-cli",
+    "workflow",
+    "rag",
+    "llm",
+    "model-agnostic"
+  ],
+  "author": "FlowKit Contributors",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.24.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "@types/node": "^24.10.2",
+    "dotenv": "^17.2.3",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "node-fetch": "^3.3.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "yaml": "^2.8.2"
+  }
+}

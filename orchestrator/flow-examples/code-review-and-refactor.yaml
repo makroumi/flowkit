@@ -1,0 +1,56 @@
+flows:
+  - name: "code-review-and-refactor"
+    description: "Analyzes code, identifies issues, and generates refactored version"
+    validation:
+      enabled: true
+      halt_on_failure: true
+    steps:
+      - id: "step1"
+        name: "Analyze Code Quality"
+        prompt: |
+          You are a senior code reviewer. Analyze the provided code and identify:
+          1. Code smells and anti-patterns
+          2. Performance bottlenecks
+          3. Security vulnerabilities
+          4. Maintainability issues
+          
+          Provide a structured report with specific line numbers.
+        use_previous_output: false
+        max_tokens: 2048
+        temperature: 0.3
+        validation:
+          type: "contains"
+          rule: "### Issues Found"
+          error_message: "Analysis must include '### Issues Found' section"
+
+      - id: "step2"
+        name: "Generate Refactored Code"
+        prompt: |
+          Based on the code review above, generate a fully refactored version of the code that:
+          - Fixes all identified issues
+          - Follows best practices for {{language}}
+          - Includes inline comments explaining changes
+          
+          Output ONLY the refactored code in a single code block.
+        use_previous_output: true
+        max_tokens: 4096
+        temperature: 0.2
+        validation:
+          type: "regex"
+          rule: "^```[a-z]+\\n[\\s\\S]+\\n```$"
+          error_message: "Output must be a valid code block"
+
+      - id: "step3"
+        name: "Generate Test Cases"
+        prompt: |
+          Generate comprehensive unit tests for the refactored code above.
+          Use the {{test_framework}} framework.
+          Cover edge cases and error handling.
+        use_previous_output: true
+        max_tokens: 3072
+        temperature: 0.4
+        validation:
+          type: "external_command"
+          rule: "npx eslint --stdin --stdin-filename test.js"
+          error_message: "Generated tests contain linting errors"
+          continue_on_failure: true
