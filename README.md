@@ -19,7 +19,7 @@ The ultimate, model-agnostic workflow orchestrator for AI CLIs. Define multi-ste
 ## Quick Start
 1. **Install the extension**
 ```bash
-gemini extension install @acme-flow/orchestrator
+gemini extension install flowkit/orchestrator
 ```
 
 2. **Create a workflow file** named `flow.yaml` in your project root. Example minimal flow:
@@ -63,7 +63,7 @@ orchestrate_flow \
 
 ### Option 1 Marketplace
 ```bash
-gemini extension install @acme-flow/orchestrator
+gemini extension install flowkit/orchestrator
 ```
 
 ### Option 2 Manual
@@ -77,8 +77,8 @@ gemini extension link .
 
 ### Option 3 NPM
 ```bash
-npm install -g @acme-flow/orchestrator
-gemini extension install @acme-flow/orchestrator
+npm install -g flowkit/orchestrator
+gemini extension install flowkit/orchestrator
 ```
 
 ---
