@@ -76,10 +76,10 @@ gemini extension link .
 ```
 
 ### Option 3 NPM
-#
+```bash
 npm install -g @acme-flow/orchestrator
 gemini extension install @acme-flow/orchestrator
-#
+```
 
 ---
 
@@ -87,7 +87,7 @@ gemini extension install @acme-flow/orchestrator
 
 ### Environment Variables
 Create a `.env` file in your project root and set required API keys and optional overrides:
-#
+```code
 GOOGLE_API_KEY=your_gemini_api_key
 ANTHROPIC_API_KEY=your_claude_api_key
 OPENAI_API_KEY=your_openai_api_key
@@ -96,11 +96,11 @@ ACME_FLOW_DEFAULT_MODEL=gemini-2.5-pro
 ACME_FLOW_FILE_PATH=./custom-flows.yaml
 ACME_FLOW_ENABLE_VALIDATION=true
 ACME_FLOW_LOG_LEVEL=info
-#
+```
 
 ### Extension Settings
 You can configure defaults via Gemini CLI settings or `settings.json`:
-#
+```json
 {
   "acmeFlow.defaultModel": "gemini-2.5-pro",
   "acmeFlow.flowFilePath": "./flow.yaml",
@@ -109,7 +109,7 @@ You can configure defaults via Gemini CLI settings or `settings.json`:
   "acmeFlow.timeoutMs": 300000,
   "acmeFlow.logLevel": "info"
 }
-#
+```
 
 ---
 
@@ -117,7 +117,7 @@ You can configure defaults via Gemini CLI settings or `settings.json`:
 
 ### Basic Flow Structure
 A `flow.yaml` contains one or more flows. Each flow has metadata and an ordered list of steps. Example structure:
-#
+```yaml
 flows:
   - name: "flow-identifier"
     description: "Human readable desc"
@@ -135,7 +135,7 @@ flows:
           type: "regex"
           rule: "^[a-z]+$"
           error_message: "Custom error"
-#
+```
 
 ### Prompt Best Practices
 - **Be explicit** about role, task, and output format.
@@ -159,21 +159,21 @@ Supported validation types:
 - **external_command** — Run linters, compilers, or custom scripts; receives step output on stdin.
 
 Example regex validation rule:
-#
+```yaml
 validation:
   type: "regex"
   rule: "^```typescript\\n[\\s\\S]+\\n```$"
   error_message: "Must output valid TypeScript code block"
-#
+```
 
 Example external command validation:
-#
+```yaml
 validation:
   type: "external_command"
   rule: "npx eslint --stdin --stdin-filename code.js"
   error_message: "Code has linting errors"
   continue_on_failure: false
-#
+```
 
 ---
 
@@ -184,7 +184,7 @@ Inject a local file into the first step as context using `context_file_path`. Fo
 
 ### Dynamic Variable Injection
 Pass runtime variables to make flows reusable:
-#
+```yaml
 orchestrate_flow \
   flow_name="deploy-workflow" \
   target_model="gemini-2.5-pro" \
@@ -194,19 +194,19 @@ orchestrate_flow \
     "version": "v2.3.1",
     "author": "jane.doe@company.com"
   }'
-#
+```
 
 Reference variables in prompts as `{{version}}`, `{{environment}}`, etc.
 
 ### Error Handling and Retries
 Configure retry behavior:
-#
+```yaml
 {
   "acmeFlow.maxRetries": 3,
   "acmeFlow.retryDelayMs": 1000,
   "acmeFlow.retryBackoffMultiplier": 2.0
 }
-#
+```
 The orchestrator retries on network failures, rate limits, and transient API errors.
 
 ### Streaming Output
@@ -255,17 +255,17 @@ Parse logs, assess impact, propose immediate mitigation and hotfix plans, and dr
 Execute a multi-step workflow defined in `flow.yaml`.
 
 **Input schema**
-#
+```yaml
 {
   "flow_name": "string",
   "context_file_path": "string optional",
   "target_model": "string",
   "variables": { "key": "value" } optional
 }
-#
+```
 
 **Output schema**
-#
+``` yaml
 {
   "flow_name": "string",
   "target_model": "string",
@@ -285,7 +285,7 @@ Execute a multi-step workflow defined in `flow.yaml`.
   "success": true,
   "final_output": "string optional"
 }
-#
+```
 
 **Example CLI usage**
 #
@@ -293,7 +293,7 @@ orchestrate_flow flow_name="code-review" target_model="gemini-2.5-pro"
 #
 
 **Example MCP usage snippet**
-#
+``` yaml
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 
 const client = new Client({
@@ -308,7 +308,7 @@ const result = await client.callTool({
     target_model: "gemini-2.5-pro"
   }
 });
-#
+```
 
 ---
 
